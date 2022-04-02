@@ -132,7 +132,7 @@ def contouring(thresh, mid, img, right=False):
         #print(cnt, ' # ', mid)
         if right:
             cx += mid
-        cv2.circle(img, (cx, cy), 4, (0, 0, 255), 2)
+        #cv2.circle(img, (cx, cy), 4, (0, 0, 255), 2)
         return [cx, cy, cnt]
 
     except:

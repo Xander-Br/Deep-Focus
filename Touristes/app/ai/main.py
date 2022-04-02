@@ -8,6 +8,7 @@ import dlib
 import math
 from face_detector import get_face_detector, find_faces
 from face_landmarks import get_landmark_model, detect_marks
+import copy
 
 """ =================== headorientation =================== """
 
@@ -178,3 +179,36 @@ print(glance) # ================================================================
 
 
 """ =================== microexpressions =================== """
+
+
+
+# GPU if available, else CPU
+device = MER.get_default_device()
+print("Selected device:", device)
+
+# Loading pretrained weights
+w = '../resources/models/MERCnn.pth'
+model = MER.to_device(MER.MERCnnModel(), device)
+if str(device) == 'cpu':
+    model.load_state_dict(torch.load(w, map_location=torch.device('cpu')))  # use for cpu
+if str(device) == 'gpu':
+    model.load_state_dict(torch.load(w, map_location=torch.device('cuda')))  # for GPU
+
+
+frame = copy.copy(img)
+width, height = frame.shape[1], frame.shape[2]
+
+bBox = MER.faceBox(frame)
+if len(bBox) > 0:
+    for box in bBox:
+        x, y, w, h = int(box.xmin * width), int(box.ymin * height), int(box.width * width), int(box.height * height)
+        faceExp = frame[y:y + h, x:x + w]
+        try:
+            faceExpResized = cv2.resize(faceExp, (80, 80))
+            transform = transforms.ToTensor()
+            faceExpResizedTensor = transform(faceExpResized)
+        except:
+            continue
+        prediction = MER.predict_image(faceExpResizedTensor, model, device)
+
+    print(prediction)
