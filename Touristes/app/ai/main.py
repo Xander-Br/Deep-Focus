@@ -100,7 +100,78 @@ for face in faces:
 print(orientation) # ======================================================================== The info we need : front, up, down, left, right
 
 
+
+
+
+
+
+
+
+
 """ =================== eyetracking =================== """
+
+detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor('../resources/models/shape_predictor_68_face_landmarks.dat')
+
+def eye_on_mask(mask, side):
+    points = [shape[i] for i in side]
+    points = np.array(points, dtype=np.int32)
+    mask = cv2.fillConvexPoly(mask, points, 255)
+    return mask
+
+left = [36, 37, 38, 39, 40, 41]
+right = [42, 43, 44, 45, 46, 47]
+
+kernel = np.ones((9, 9), np.uint8)
+glance = ""
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+rects = detector(gray, 1)
+# rect = Position des yeux, pas de l'iris
+for rect in rects:
+    shape = predictor(gray, rect)
+    shape = shape_to_np(shape)
+    mask = np.zeros(img.shape[:2], dtype=np.uint8)
+    mask = eye_on_mask(mask, left)
+    mask = eye_on_mask(mask, right)
+    mask = cv2.dilate(mask, kernel, 5)
+    eyes = cv2.bitwise_and(img, img, mask=mask)
+    mask = (eyes == [0, 0, 0]).all(axis=2)
+    eyes[mask] = [255, 255, 255]
+    midx = (shape[42][0] + shape[39][0]) // 2
+    midy = (shape[27][1] + shape[27][1]) // 2
+    eyes_gray = cv2.cvtColor(eyes, cv2.COLOR_BGR2GRAY)
+    threshold = 100
+    _, thresh = cv2.threshold(eyes_gray, threshold, 255, cv2.THRESH_BINARY)
+    thresh = cv2.erode(thresh, None, iterations=2)  # 1
+    thresh = cv2.dilate(thresh, None, iterations=4)  # 2
+    thresh = cv2.medianBlur(thresh, 3)  # 3
+    thresh = cv2.bitwise_not(thresh)
+    # Trace les iris en rouge
+    Lefteye = contouring(thresh[:, 0:midx], midx, img)
+    Righteye = contouring(thresh[:, midx:], midx, img, True)
+
+    if abs(Righteye[0]-midx) > abs(Lefteye[0]-midx)+10:
+        glance = "left"
+    elif abs(Lefteye[0]-midx) > abs(Righteye[0]-midx)+10:
+        glance = "right"
+    elif Righteye[1] < midy - 2 and Lefteye[1] < midy - 2:
+        glance = "up"
+    elif Righteye[1] > midy + 4 and Lefteye[1] > midy + 4:
+        glance = "down"
+    elif abs(Righteye[0]-midx) <= abs(Lefteye[0]-midx)+10 and abs(Lefteye[0]-midx) <= abs(Righteye[0]-midx)+10 and Righteye[1] >= midy - 2 and Righteye[1] <= midy + 4 and Lefteye[1] >= midy-2 and Lefteye[1] <= midy+4 :
+        glance = "front"
+
+print(glance) # ======================================================================== The info we need : front, up, down, left, right
+
+
+
+
+
+
+
+
+
 
 
 
