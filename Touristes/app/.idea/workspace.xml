@@ -29,16 +29,16 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/models/model_expression" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources" />
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models\model_expression" />
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\ai" />
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models" />
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models\pose_model" />
-      <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models" />
@@ -82,6 +82,17 @@
       <updated>1648894242000</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
