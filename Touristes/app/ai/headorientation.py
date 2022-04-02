@@ -1,7 +1,5 @@
 import cv2
 import numpy as np
-import tensorflow as tf
-from tensorflow import keras
 
 # Code from https://towardsdatascience.com/real-time-head-pose-estimation-in-python-e52db1bc606a
 
@@ -246,4 +244,4 @@ while True:
 cv2.destroyAllWindows()
 cap.release()
 
-"""Recupérer orientation pour le calcul du score d'attention"""
+"""Recupérer la variable orientation pour le calcul du score d'attention"""

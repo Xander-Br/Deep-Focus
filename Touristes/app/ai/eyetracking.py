@@ -115,3 +115,4 @@ cap.release()
 cv2.destroyAllWindows()
 
 
+"""Recupérer la variable glance pour le calcul du score d'attention"""
