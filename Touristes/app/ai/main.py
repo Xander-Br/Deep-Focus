@@ -155,6 +155,11 @@ camera_matrix = np.array(
      [0, focal_length, center[1]],
      [0, 0, 1]], dtype="double"
 )
+
+# Outputs
+orientation = ""
+
+
 while True:
     ret, img = cap.read()
     if ret == True:
@@ -204,30 +209,42 @@ while True:
                 ang2 = 90
 
                 # print('div by zero error')
-            if ang1 >= 48:
+            if ang1 >= 20:
+                orientation = "down"
                 print('Head down')
                 cv2.putText(img, 'Head down', (30, 30), font, 2, (255, 255, 128), 3)
-            elif ang1 <= -48:
+            elif ang1 <= -40:
+                orientation = "up"
                 print('Head up')
                 cv2.putText(img, 'Head up', (30, 30), font, 2, (255, 255, 128), 3)
 
-            if ang2 >= 48:
+            if ang2 >= 35:
+                orientation = "right"
                 print('Head right')
                 cv2.putText(img, 'Head right', (90, 30), font, 2, (255, 255, 128), 3)
-            elif ang2 <= -48:
+            elif ang2 <= -35:
+                orientation = "left"
                 print('Head left')
                 cv2.putText(img, 'Head left', (90, 30), font, 2, (255, 255, 128), 3)
+
+            elif (ang2 > -35 and ang2 < 35 and ang1 > -40 and ang1 < 20) :
+                orientation = "front"
+                print('Head front')
+                cv2.putText(img, 'Head front', (90, 30), font, 2, (255, 255, 128), 3)
+
 
             cv2.putText(img, str(ang1), tuple(p1), font, 2, (128, 255, 255), 3)
             cv2.putText(img, str(ang2), tuple(x1), font, 2, (255, 255, 128), 3)
         # Display image
-        # cv2.imshow('img', img)
+        cv2.imshow('img', img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     else:
         break
 cv2.destroyAllWindows()
 cap.release()
+
+"""Recupérer orientation pour le calcul du score d'attention"""
 
 
 
