@@ -16,6 +16,7 @@ import { interval, Subscription } from "rxjs";
 import { MatSort, Sort } from "@angular/material/sort";
 import { HttpClient } from "@angular/common/http";
 import { MatTableDataSource } from "@angular/material/table";
+import {Class} from "./dto/Class";
 
 Chart.register(
     LineController,
@@ -26,7 +27,7 @@ Chart.register(
     CategoryScale
 );
 
-const refresh_time: number = 10000;
+const refresh_time: number = 30000;
 
 @Component({
     selector: "app-root",
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit {
     average_score = 0.8;
     student_list: Student[] = [];
     dataSource = new MatTableDataSource<Student>();
+    classResponse: Class = new Class();
 
     refresh() {
 
@@ -60,6 +62,16 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.chart_init();
         this.newRequest(refresh_time);
+        this.getHistory();
+
+    }
+
+    getHistory(){
+      this.httpClient.get<number[]>("http://localhost:5000/getHistory").subscribe(next =>
+      {
+        this.loadHistory(next);
+      });
+
     }
 
     chart: any;
@@ -90,28 +102,26 @@ export class AppComponent implements OnInit {
         });
     }
 
-    url_get_score: string = 'http://localhost:5000/get_score';
+    url_get_score: string = 'http://localhost:5000/get_scores';
     score_list: any;
 
     newRequest(refresh_time: any) {
         // Obtention de la liste des scores
-        this.httpClient.get<ScoresResponse>(this.url_get_score)
-            .subscribe(ScoreResponse => {
-               this.score_list = ScoreResponse;
+        this.httpClient.get<Class>(this.url_get_score)
+            .subscribe(res => {
+               this.classResponse = res;
+               this.dataSource.data = this.classResponse.users;
             });
 
-
-        this.average_score = this.compute_score(this.score_list);
-
         // Pour mettre a jour la table
-        this.dataSource.data = this.student_list;
+        this.dataSource.data = this.classResponse.users;
 
 
-        this.lb_state = (this.average_score > 0.8) ?  "Attentif - " : "Inattentif - ";
-        this.lb_state += (this.average_score*100).toString() + "%";
+        this.lb_state = (this.classResponse.class_average > 0.8) ?  "Attentif : " : "Inattentif : ";
+        this.lb_state += Math.floor(this.classResponse.class_average *100).toString() + "%";
 
         // Ajout d'un point sur la graphique
-        this.addData(this.chart, this.average_score);
+        this.addData(this.chart, this.classResponse.class_average * 100);
 
         setTimeout(() => {
             this.newRequest(refresh_time);
@@ -128,26 +138,36 @@ export class AppComponent implements OnInit {
                 score += Number(val);
             }
 
+            this.student_list = []
             this.student_list.push({
                 name: key,
-                score: score,
-                score_list: score_list[key]
+                //score: score,
+                //score_list: score_list[key]
             });
 
             all_sum += score_list[key];
         }
 
         // Retourne la moyenne générale
-        return Object.keys(score_list).length;
+        return all_sum/Object.keys(score_list).length;
     }
 
+
+    loadHistory(history: number[]){
+      for(let n in history){
+        this.addData(this.chart, history[n] * 100);
+      }
+      this.average_score = history[history.length-1];
+      this.lb_state = (this.average_score > 0.8) ?  "Attentif : " : "Inattentif : ";
+      this.lb_state += Math.floor(this.average_score *100).toString() + "%";;
+    }
 
     addData(chart: Chart, average_score: any) {
         this.last_label += 1;
 
         // @ts-ignore
         chart.data.labels.push(this.last_label.toString() + "m");
-        chart.data.datasets.forEach((dataset) => {
+        chart.data.datasets.forEach((dataset: { data: any[]; }) => {
             dataset.data.push(average_score);
         });
         chart.update();

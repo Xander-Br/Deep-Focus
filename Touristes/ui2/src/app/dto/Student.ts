@@ -1,5 +1,5 @@
 export class Student {
+  id?: string;
   name?: string;
-  score?: number;
-  score_list?: number[];
+  score_average?: number;
 }

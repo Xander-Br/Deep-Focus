@@ -14,7 +14,7 @@ options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 driver = webdriver.Chrome(service=s, options=options)
 driver.maximize_window()
-driver.get("https://meet.jit.si/12344321qwedsds")
+driver.get("https://meet.jit.si/odoohackathon")
 users_list = []
 
 
@@ -43,7 +43,7 @@ def getImages():
                     if user.id == span.get_attribute('id'):
                         img = span.find_element(By.CSS_SELECTOR, "video").screenshot_as_base64
                         post = requests.post("http://localhost:5000/calculateScore", data={"id": user.id, "name": user.name, "img": img})
-        time.sleep(10)
+        time.sleep(30)
 
 
 launch_chrome()

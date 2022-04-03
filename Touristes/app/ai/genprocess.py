@@ -176,7 +176,7 @@ def Processing(img):
 
     frame = copy.copy(img)
     width, height = frame.shape[1], frame.shape[2]
-
+    prediction = None
     bBox = MER.faceBox(frame)
     if len(bBox) > 0:
         for box in bBox:
@@ -191,7 +191,7 @@ def Processing(img):
             prediction = MER.predict_image(faceExpResizedTensor, model, device)
 
         # print(prediction)
-
+    datavector = None
     if prediction or glance or orientation:
         if not prediction:
             prediction = 'null'
