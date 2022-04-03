@@ -1,10 +1,19 @@
+import io
 import random
 
+import cv2
+import numpy as np
+#from PIL.Image import Image
 from flask import Flask, request, send_file, make_response
 import base64
 import json
 
+from PIL import Image
+
+from ai.genprocess import Processing
+from ai.main import attentionCompute
 from api.models.user import User
+
 
 app = Flask(__name__)
 users = {}
@@ -21,15 +30,27 @@ def getUserIndexByUsername(username):
         if username == user.name:
             return users_list.index(user)
 
+# Take in base64 string and return PIL image
+def stringToImage(base64_string):
+    imgdata = base64.b64decode(base64_string)
+    return Image.open(io.BytesIO(imgdata))
+
+def toRGB(image):
+    return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
+
 @app.route("/calculateScore", methods = ["POST"])
 def calculateScore():
     data = request.form
     if(userExist(data["name"])):
         user_id = getUserIndexByUsername(data["name"])
+        data = stringToImage(data["img"])
+        data = toRGB(data)
+        score = attentionCompute(Processing(data))
+        print(score)
+        users_list[user_id].score.append(score)
     else:
         users_list.append(User(data["id"], data["name"], ""))
-    print(data["name"])
-    return data["name"]
+    return "Done"
 
 
 @app.route("/put_frame/")

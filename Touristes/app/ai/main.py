@@ -1,4 +1,4 @@
-from genprocess import Processing
+from ai.genprocess import Processing
 import cv2
 import time
 

@@ -1,13 +1,14 @@
-from utils import *
+from ai import MER
+from ai.utils import *
 import cv2
 import torchvision.transforms as transforms
 import torch
-import MER
+import ai.MER
 import numpy as np
 import dlib
 import math
-from face_detector import get_face_detector, find_faces
-from face_landmarks import get_landmark_model, detect_marks
+from ai.face_detector import get_face_detector, find_faces
+from ai.face_landmarks import get_landmark_model, detect_marks
 import copy
 
 def Processing(img):

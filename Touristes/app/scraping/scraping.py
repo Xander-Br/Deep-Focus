@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from api.models.user import User
 import requests
 
+
 s = Service(ChromeDriverManager().install())
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
