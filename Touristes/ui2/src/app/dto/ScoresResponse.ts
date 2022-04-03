@@ -1,3 +1,5 @@
 export interface ScoresResponse {
-    scores_list: any;
+    name: {
+        scores: number[]
+    }
 }
