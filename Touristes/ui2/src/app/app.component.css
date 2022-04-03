@@ -1,0 +1,45 @@
+table {
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+    font-size: 3em;
+}
+
+.name {
+    font-size: large;
+}
+
+.goodScore {
+  color: #bfe985;
+}
+
+.badScore {
+  color: #fb5576
+}
+
+.progress_bar {
+  width: 100%;
+  background-color: #9c9494;
+  border-radius: 5px;
+}
+
+.bar {
+  height: 27px;
+  border-radius: 5px 0 0 5px;
+}
+
+.bar_good_score {
+  background-color: #bfe985;
+}
+
+.bar_bad_score {
+  background-color: #fb5576;
+}
+
+.mat-column-score {
+  width: 200px;
+}
+
+
