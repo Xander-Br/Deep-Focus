@@ -35,12 +35,13 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources" />
+      <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models" />
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models\model_expression" />
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\ai" />
-      <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models" />
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models\pose_model" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\unittests" />
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models" />
       <recent name="C:\Users\Titania\Documents\GitHub\LesTouristesOdooHackathon\Touristes\app\resources\models\pose_model" />
     </key>
@@ -113,6 +114,36 @@
           <url>file://$PROJECT_DIR$/venv/Lib/site-packages/keras/utils/traceback_utils.py</url>
           <line>66</line>
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ai/genprocess.py</url>
+          <line>169</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ai/genprocess.py</url>
+          <line>164</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ai/genprocess.py</url>
+          <line>165</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ai/genprocess.py</url>
+          <line>173</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ai/genprocess.py</url>
+          <line>172</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ai/genprocess.py</url>
+          <line>170</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

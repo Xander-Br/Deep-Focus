@@ -39,11 +39,14 @@ class MERCnnModel(nn.Module):
 
 
 # to select GPU if available or else CPU
+
 def get_default_device():
     if torch.cuda.is_available():
         return torch.device('cuda')
     else:
         return torch.device('cpu')
+
+
 
 
 # to move tensor to selected device
