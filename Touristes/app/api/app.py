@@ -4,8 +4,32 @@ from flask import Flask, request, send_file, make_response
 import base64
 import json
 
+from api.models.user import User
+
 app = Flask(__name__)
 users = {}
+users_list = []
+
+def userExist(username):
+    for user in users_list:
+        if username == user.name:
+            return True
+        return False
+
+def getUserIndexByUsername(username):
+    for user in users_list:
+        if username == user.name:
+            return users_list.index(user)
+
+@app.route("/calculateScore", methods = ["POST"])
+def calculateScore():
+    data = request.form
+    if(userExist(data["name"])):
+        user_id = getUserIndexByUsername(data["name"])
+    else:
+        users_list.append(User(data["id"], data["name"], ""))
+    print(data["name"])
+    return data["name"]
 
 
 @app.route("/put_frame/")
@@ -36,3 +60,4 @@ def get_scores():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
