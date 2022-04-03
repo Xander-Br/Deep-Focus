@@ -1,0 +1,31 @@
+<div style="width: 500px">
+
+  <h1 [className]="averageScore>80 ? 'goodScore' : 'badScore'">{{lb_state}}</h1>
+
+  <div>
+    <canvas id="canvas">{{ chart}}</canvas>
+  </div>
+
+  <table mat-table [dataSource]="studentList" class="mat-elevation-z8" matSort #empTbSort="matSort">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name" >
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element" class="name">{{element.name}}</td>
+    </ng-container>
+
+    <!-- Score Column -->
+    <ng-container matColumnDef="score">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Score </th>
+      <td mat-cell *matCellDef="let element">
+        <div class="progress_bar">
+          <div [className]="element.score>0.8 ? 'bar bar_good_score' : 'bar bar_bad_score'" style="width:{{element.score * 100}}%;"></div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
