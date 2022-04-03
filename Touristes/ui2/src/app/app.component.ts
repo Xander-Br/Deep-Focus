@@ -15,6 +15,7 @@ import {
 import { interval, Subscription } from "rxjs";
 import { MatSort, Sort } from "@angular/material/sort";
 import { HttpClient } from "@angular/common/http";
+import { MatTableDataSource } from "@angular/material/table";
 
 Chart.register(
     LineController,
@@ -25,33 +26,40 @@ Chart.register(
     CategoryScale
 );
 
+const refresh_time: number = 10000;
+
 @Component({
     selector: "app-root",
     templateUrl: "./app.component.html",
     styleUrls: ["./app.component.css"],
 })
+
+
+
 export class AppComponent implements OnInit {
     streams: Element[] = [];
-    displayedColumns: string[] = ["name", "score"];
-    averageScore = 81;
-    studentList: Student[] = [];
+    displayed_columns: string[] = ["name", "score"];
+    average_score = 0.8;
+    student_list: Student[] = [];
+    dataSource = new MatTableDataSource<Student>();
+
+    refresh() {
+
+    }
+
     lb_state: string = "Attentif";
     last_label: number = 0;
 
     // Test pour voir la mise en page
     constructor(private elementRef: ElementRef, private httpClient: HttpClient) {
         for (let i = 0; i < 40; i++) {
-            this.studentList.push({
-                name: "alexandre",
-                score: 0.9 - i * 0.02,
-                score_list: []
-            });
+
         }
     }
 
     ngOnInit() {
         this.chart_init();
-        this.setDelay(this.refresh_delay, this.labels, this.datas);
+        this.newRequest(refresh_time);
     }
 
     chart: any;
@@ -85,56 +93,54 @@ export class AppComponent implements OnInit {
     url_get_score: string = 'http://localhost:5000/get_score';
     score_list: any;
 
-    refresh_delay: number = 10000;
-
-    // TO MODIFY - delete two next
-    labels: any = ["4", "5", "6", "7"];
-    datas: any = [20, 50, 90, 85];
-    setDelay(refresh_delay: any, labels: any, datas: any) {
-        // TO MODIFY - 4 ligne a supprimé
-        let label = labels.shift();
-        let data = datas.shift();
-        labels.push(label);
-        datas.push(data);
-
+    newRequest(refresh_time: any) {
         // Obtention de la liste des scores
         this.httpClient.get<ScoresResponse>(this.url_get_score)
             .subscribe(ScoreResponse => {
-               this. score_list = ScoreResponse.scores_list;
+               this.score_list = ScoreResponse;
             });
 
-        // TO MODIFY - decomment et delete +2
-        //let average_score = this.compute_score(this.score_list);
-        let average_score = 0.9;
 
-        this.lb_state = (average_score > 0.8) ?  "Attentif - " : "Inattentif - ";
-        this.lb_state += (average_score*100).toString() + "%";
+        this.average_score = this.compute_score(this.score_list);
 
-        this.addData(this.chart, data);
+        // Pour mettre a jour la table
+        this.dataSource.data = this.student_list;
+
+
+        this.lb_state = (this.average_score > 0.8) ?  "Attentif - " : "Inattentif - ";
+        this.lb_state += (this.average_score*100).toString() + "%";
+
+        // Ajout d'un point sur la graphique
+        this.addData(this.chart, this.average_score);
 
         setTimeout(() => {
-            this.setDelay(refresh_delay, labels, datas);
-        }, refresh_delay);
+            this.newRequest(refresh_time);
+        }, refresh_time);
     }
 
-    compute_score(score_list: any) {
+    compute_score(score_list:  any) {
         let all_sum = 0;
-        let score = 0;
+        let score:number = 0;
+
         for (let key in score_list) {
             score = 0;
-            score_list[key].forEach((a: { value: number; }) => score += a.value);
+            for (let val in score_list[key].scores) {
+                score += Number(val);
+            }
 
-            this.studentList.push({
+            this.student_list.push({
                 name: key,
                 score: score,
                 score_list: score_list[key]
             });
 
             all_sum += score_list[key];
-
         }
+
+        // Retourne la moyenne générale
         return Object.keys(score_list).length;
     }
+
 
     addData(chart: Chart, average_score: any) {
         this.last_label += 1;
