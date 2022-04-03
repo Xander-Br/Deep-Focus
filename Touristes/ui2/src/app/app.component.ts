@@ -42,9 +42,9 @@ export class AppComponent implements OnInit {
     constructor(private elementRef: ElementRef, private httpClient: HttpClient) {
         for (let i = 0; i < 40; i++) {
             this.studentList.push({
-                id: 2,
                 name: "alexandre",
                 score: 0.9 - i * 0.02,
+                score_list: []
             });
         }
     }
@@ -86,6 +86,8 @@ export class AppComponent implements OnInit {
     score_list: any;
 
     refresh_delay: number = 10000;
+
+    // TO MODIFY - delete two next
     labels: any = ["4", "5", "6", "7"];
     datas: any = [20, 50, 90, 85];
     setDelay(refresh_delay: any, labels: any, datas: any) {
@@ -102,7 +104,7 @@ export class AppComponent implements OnInit {
             });
 
         // TO MODIFY - decomment et delete +2
-        //let average_score = this.compute_average_score(this.score_list);
+        //let average_score = this.compute_score(this.score_list);
         let average_score = 0.9;
 
         this.lb_state = (average_score > 0.8) ?  "Attentif - " : "Inattentif - ";
@@ -115,10 +117,21 @@ export class AppComponent implements OnInit {
         }, refresh_delay);
     }
 
-    compute_average_score(score_list: any) {
-        let sum = 0;
+    compute_score(score_list: any) {
+        let all_sum = 0;
+        let score = 0;
         for (let key in score_list) {
-            sum += score_list[key];
+            score = 0;
+            score_list[key].forEach((a: { value: number; }) => score += a.value);
+
+            this.studentList.push({
+                name: key,
+                score: score,
+                score_list: score_list[key]
+            });
+
+            all_sum += score_list[key];
+
         }
         return Object.keys(score_list).length;
     }
