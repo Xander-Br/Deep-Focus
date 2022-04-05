@@ -1,13 +1,3 @@
-# Deep Focus - Winner project of 2022 Odoo Hackathon
-
-## Team Members :
-
-| Breuil Alexandre | Louis Gobert | Tatiana Dehon|
-|--|--|--|
-| <a>Github</a> | <a>Github</a> | <a>Github</a> |
-| <a>LinkedIn</a> | <a>LinkedIn</a> | <a>LinkedIn</a> |
-
-
 # Deep Focus
 ## _The tool to monitor an online class attention rate_
 
